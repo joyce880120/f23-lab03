@@ -12,7 +12,6 @@ import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
-
 /**
  * TODO: Write more unit tests to test the implementation of ArrayIntQueue
  * for the {@link LinkedIntQueue} and
@@ -33,10 +32,19 @@ public class IntQueueTest {
     @Before
     public void setUp() {
         // comment/uncomment these lines to test each class
-        mQueue = new LinkedIntQueue();
-//        mQueue = new ArrayIntQueue();
+        // mQueue = new LinkedIntQueue();
+        mQueue = new ArrayIntQueue();
 
         testList = new ArrayList<>(List.of(1, 2, 3));
+    }
+
+    @Test
+    public void clear() {
+        testList.forEach(n -> mQueue.enqueue(n));
+        mQueue.clear();
+        assertNull(mQueue.peek());
+        assertTrue(mQueue.isEmpty());
+        assertNull(mQueue.dequeue());
     }
 
     @Test
@@ -81,6 +89,11 @@ public class IntQueueTest {
     }
 
     @Test
+    public void testDequeueNull() {
+        assertNull(mQueue.dequeue());
+    }
+
+    @Test
     public void testContent() throws IOException {
         InputStream in = new FileInputStream("src/test/resources/data.txt");
         try (Scanner scanner = new Scanner(in)) {
@@ -100,5 +113,14 @@ public class IntQueueTest {
         }
     }
 
-
+    @Test
+    public void testEnsureCapacity() {
+        ArrayIntQueue arrayQueue = (ArrayIntQueue) mQueue;
+        testList = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        testList.forEach(n -> mQueue.enqueue(n));
+        arrayQueue.ensureCapacity();
+        Integer value = 1;
+        assertEquals(value, mQueue.peek());
+        assertEquals(10, mQueue.size());
+    }
 }

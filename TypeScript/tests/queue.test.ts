@@ -18,6 +18,15 @@ test("test isEmpty: list with 1 element is not empty", () => {
     expect(queue.isEmpty()).toBeFalsy()
 })
 
+test("test clear: list should be empty after clear()", () => {
+    const queue = createQueue()
+    queue.enqueue(2)
+    queue.clear()
+    expect(queue.isEmpty()).toBeTruthy()
+    expect(queue.peek()).toBeNull()
+    expect(queue.dequeue()).toBeNull()
+})
+
 test("test peek: newly created list should peek null", () => {
 
     expect(createQueue().peek()).toBeNull()
@@ -36,6 +45,18 @@ test.each(param)("test enqueue: enqueued number %d is correct", (nr) => {
     const queue = createQueue()
     queue.enqueue(nr)
     expect(queue.peek()).toBe(nr)
+})
+
+test("test dequeue: dequeue size should minus 1", () => {
+    const queue = createQueue()
+    expect(queue.dequeue()).toBeNull()
+    queue.enqueue(1)
+    queue.enqueue(2)
+    queue.enqueue(3)
+    expect(queue.size()).toEqual(3)
+    queue.dequeue()
+    // expect(queue.dequeue()).toEqual(1)
+    expect(queue.size()).toEqual(2)
 })
 
 // can nest tests with shared descriptions for better readability
